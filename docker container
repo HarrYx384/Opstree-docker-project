@@ -1,0 +1,42 @@
+FROM ubuntu:18.04
+LABEL Name="OpsTree"
+ENV Name=opstree
+ENV Pass=Opstree@123
+RUN useradd $Name && echo "$Name:$Pass" | chpasswd
+RUN apt-get update -y
+RUN apt-get install nginx -y
+EXPOSE 80
+USER $Name
+CMD ["nginx","-g","daemon off;"]
+
+FROM ubuntu:18.04
+RUN apt-get update -y
+RUN apt-get install nginx -y
+EXPOSE 8080
+ENTRYPOINT ["nginx","-g","daemon off;"]
+
+
+
+
+
+
+=================================
+location
+   
+  /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
+   access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+
+
+
+mount point:--
+
+I can do mount this file ad read only in container. default.conf 
+/etc/nginx/conf.d
+
+I have to give write permission on this folder
+/var/log/nginx
+
+I will mount this file also inside the container as read only mode
+/usr/share/nginx/html
